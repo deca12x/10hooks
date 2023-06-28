@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function App() {
   return (
@@ -14,6 +14,12 @@ export default function App() {
       </p>
       <FirstUseEffectHook />
       <SecondUseEffectHook />
+      <h4>3. useRef</h4>
+      <p>
+        useRef is similar to useState but has 3 differences: No re-rendering,
+        Synchronous updates and Referencing DOM elements.
+      </p>
+      <FirstUseRefHook />
     </>
   );
 }
@@ -131,6 +137,26 @@ function SecondUseEffectHook() {
           <li key={index}>{rec}</li>
         ))}
       </ul>
+    </>
+  );
+}
+
+function FirstUseRefHook() {
+  const myNumber = useRef();
+  myNumber.current = 42;
+
+  function increment() {
+    myNumber.current += 1;
+    console.log(myNumber.current);
+  }
+  return (
+    <>
+      <p>
+        The HTML will display the original render for myNumber, even as it
+        increases (see conole.log){" "}
+      </p>
+      <button onClick={increment}>Increment!</button>
+      <p>{myNumber.current}</p>
     </>
   );
 }
