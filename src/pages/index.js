@@ -5,8 +5,13 @@ export default function App() {
     <>
       <h1>The 3 Most Important React Hooks</h1>
       <h4>1. useState</h4>
+      <p>
+        useState is used to update a state variable and re-render it. It happens
+        asynchonously, so remember to await if needed.
+      </p>
       <FirstUseStateHook />
       <SecondUseStateHook />
+      <ThirdUseStateHook />
       <h4>2. useEffect</h4>
       <p>
         useEffect takes two arguments: function (what function is called) &
@@ -20,6 +25,7 @@ export default function App() {
         Synchronous updates and Referencing DOM elements.
       </p>
       <FirstUseRefHook />
+      <SecondUseRefHook />
     </>
   );
 }
@@ -66,6 +72,29 @@ function SecondUseStateHook() {
           <li key={index}>{fruit}</li>
         ))}
       </ul>
+    </>
+  );
+}
+
+function ThirdUseStateHook() {
+  const [number, setNumber] = useState(0);
+
+  function increment() {
+    setNumber(number + 1);
+    console.log(number);
+  }
+
+  return (
+    <>
+      <p>
+        Demonstration of the asynchronicity of usState. console.log always
+        prints the old value because it runs before the variable has finished
+        updating.
+      </p>
+      <p>
+        <button onClick={increment}>Increment</button>
+        {number}
+      </p>
     </>
   );
 }
@@ -153,10 +182,30 @@ function FirstUseRefHook() {
     <>
       <p>
         The HTML will display the original render for myNumber, even as it
-        increases (see conole.log){" "}
+        increases (see conole.log).
       </p>
       <button onClick={increment}>Increment!</button>
       <p>{myNumber.current}</p>
+    </>
+  );
+}
+
+function SecondUseRefHook() {
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  return (
+    <>
+      <input ref={inputRef} type="text" />
+      <p>
+        When this page loads, this input element is already in focus (you can
+        type without clicking on it). This is because we hold a reference to the
+        input element, and have a useEffect that runs on page load due to having
+        an empty dependency array, that focuses on the input element.
+      </p>
     </>
   );
 }
